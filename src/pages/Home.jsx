@@ -3,7 +3,7 @@ import Navbar from "../components/layout/Navbar";
 const Home = () => {
     return (
         <>
-            <Navbar />
+            {/* <Navbar /> */}
 
             <div className="text-center mt-20">
                 <h1 className="text-4xl font-bold">

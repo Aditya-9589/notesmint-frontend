@@ -2,7 +2,10 @@ import React from 'react'
 import { Link } from "react-router-dom";
 
 const BundleCard = ({ bundle }) => {
-    console.log(bundle);
+
+    // for testing, if bundles are visible in UI or not 
+    // console.log(bundle);
+    
     return (
         <div className='border rounded-lg shadow-md p-4 hover:shadow-lg transition' >
 

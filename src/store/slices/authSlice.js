@@ -1,11 +1,13 @@
 // import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 // import apiClient from "../../services/apiClient";
 
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, } from "@reduxjs/toolkit";
 
 const initialState = {
     user: null,
     token: localStorage.getItem("token") || null,
+    loading: false,
+    error: null,
 };
 
 const authSlice = createSlice({
@@ -19,11 +21,27 @@ const authSlice = createSlice({
         setCredentials: (state, action) => {
             state.user = action.payload.user;
             state.token = action.payload.token;
+            state.loading = false;
+            state.error = null;
+
             localStorage.setItem("token", action.payload.token);
         },
+
+        setLoading: (state) =>{
+            state.loading = true;
+        },
+
+        setError: (state, action) => {
+            state.loading = false;
+            state.error = action.payload;
+        },
+
         logout: (state) => {
             state.user = null;
             state.token = null;
+            state.loading = false;
+            state.error = null;
+
             localStorage.removeItem("token");
         },
     },
@@ -68,7 +86,7 @@ const authSlice = createSlice({
 //     },
 // });
 
-export const { setCredentials, logout } = authSlice.actions;
+export const { setCredentials, logout, setLoading, setError } = authSlice.actions;
 export default authSlice.reducer;
 
 // best approach to create different slices for diff functionality,
