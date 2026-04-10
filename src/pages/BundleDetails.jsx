@@ -11,6 +11,9 @@ import apiClient from '../services/apiClient';
 
 // import { useSelector } from "react-redux";
 
+import { useNavigate } from 'react-router-dom';
+import { setCredentials } from '../store/slices/authSlice';
+
 
 
 const BundleDetails = ({ openAuth }) => {
@@ -22,7 +25,14 @@ const BundleDetails = ({ openAuth }) => {
         (state) => state.bundles
     );
 
-    const { token } = useSelector((state) => state.auth);
+    const { token, user } = useSelector((state) => state.auth);
+
+    // const isPurchased = user?.purchasedBundles?.includes(id);
+    const isPurchased = user?.purchasedBundles?.some(
+        (b) => b.toString() === id
+    );
+
+    const navigate = useNavigate;
 
     useEffect(() => {
         dispatch(fetchBundleById(id));
@@ -38,7 +48,15 @@ const BundleDetails = ({ openAuth }) => {
         }
 
         try {
-            const order = await createOrder(singleBundle._id);
+            const res = await createOrder(singleBundle._id);
+
+            // ----    razorpay not woring debugging    ----
+            console.log("Sending bundleId: ", singleBundle._id);
+
+            const order = res.order;
+
+            // ------    Console for debugging razorpay / payment fail    -----
+            console.log("ORDER:", order)    // Debug
 
             const options = {
                 key: import.meta.env.VITE_RAZORPAY_KEY,
@@ -46,16 +64,40 @@ const BundleDetails = ({ openAuth }) => {
                 currency: "INR",
                 order_id: order.id,
 
+                // ------    Not sure about this   ----
+                name: "NotesMint",
+                description: singleBundle.title,
+
                 handler: async function (response) {
-                    await apiClient.post("/payment/verify", response);
-                    alert("Payment Successful");
+                    // await apiClient.post("/payment/verify", response);
+                    // const res = await apiClient.post("/payment/verify", {
+                    await apiClient.post("/payment/verify", {
+                        ...response,
+                        bundleId: singleBundle._id,     // Important Fix
+                    });
+
+                    // Fetch updated user 
+                    const userRes = await apiClient.get("/auth/me");
+
+                    // update Redux 
+                    dispatch(setCredentials({
+                        user: userRes.data.user,
+                        token
+                    }))
+
+                    // alert("Payment Successful");
+                    toast.success("Payment Successful");
+                },
+
+                theme: {
+                    color: "#16A34A",
                 },
             };
 
             const rzp = new window.Razorpay(options);
             rzp.open();
 
-        }  catch (error) {
+        } catch (error) {
             console.error(error);
             toast.error("Payment failed. Try again.");
         }
@@ -87,11 +129,27 @@ const BundleDetails = ({ openAuth }) => {
                     ₹{singleBundle.price}
                 </h2>
 
-                <button
+                {/* <button
                     onClick={handlePayment}
                     className="mt-6 bg-green-600 text-white px-6 py-2 rounded">
                     Buy Now
-                </button>
+                </button> */}
+
+                {isPurchased ? (
+                    <button
+                        onClick={() => navigate("/my-purchases")}
+                        className="mt-6 bg-green-600 text-white px-6 py-2 rounded"
+                    >
+                        Go to My Purchases
+                    </button>
+                ) : (
+                    <button
+                        onClick={handlePayment}
+                        className="mt-6 bg-green-600 text-white px-6 py-2 rounded"
+                    >
+                        Buy Now
+                    </button>
+                )}
 
             </div>
         </>
