@@ -1,6 +1,10 @@
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux';
+import apiClient from './services/apiClient';
+import { setCredentials } from './store/slices/authSlice';
+
 import { ToastContainer } from"react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -17,6 +21,28 @@ import AuthModal from './components/modal/AuthModal';
 const App = () => {
 
   const [authOpen, setAuthOpen] = useState(false);
+
+  const dispatch = useDispatch();
+  const { token } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      if (token) {
+        try {
+          const res = await apiClient.get("/auth/me");
+
+          dispatch(setCredentials({
+            user: res.data.user,
+            token,
+          }));
+        }   catch (error) {
+          console.error("Auto login failed", error);
+        }
+      }
+    };
+
+    fetchUser();
+  }, [token, dispatch]);
 
   return (
     <>
@@ -40,7 +66,7 @@ const App = () => {
 
       {/* Global Toast  */}
       <ToastContainer position="top-right" autoClose={2000} />
-      
+
     </>
   )
 }

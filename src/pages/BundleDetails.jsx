@@ -32,7 +32,7 @@ const BundleDetails = ({ openAuth }) => {
         (b) => b.toString() === id
     );
 
-    const navigate = useNavigate;
+    const navigate = useNavigate();
 
     useEffect(() => {
         dispatch(fetchBundleById(id));
