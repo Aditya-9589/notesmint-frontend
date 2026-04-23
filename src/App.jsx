@@ -4,6 +4,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
 import apiClient from './services/apiClient';
 import { setCredentials } from './store/slices/authSlice';
+// import { useSelector } from "react-redux";
+import { Navigate } from "react-router-dom";
 
 import { ToastContainer } from"react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -16,6 +18,7 @@ import BundleDetails from "./pages/BundleDetails";
 import MyPurchased from "./pages/MyPurchases";
 import Navbar from './components/layout/Navbar';
 import AuthModal from './components/modal/AuthModal';
+import MyPurchases from './pages/MyPurchases';
 
 
 const App = () => {
@@ -55,8 +58,11 @@ const App = () => {
           <Route path='/' element={<Home openAuth={() => setAuthOpen(true)} />} ></Route>
           <Route path='/bundles' element={<Bundles openAuth={() => setAuthOpen(true)} />} ></Route>
           <Route path='/bundle/:id' element={<BundleDetails openAuth={() => setAuthOpen(true)} />} ></Route>
+          
           {/* ----    <Route path='/login' element={<Login />} ></Route>     ---- */}
-          <Route path='/my-purchases' element={<MyPurchased />} ></Route>
+          {/* <Route path='/my-purchases' element={<MyPurchased />} ></Route> */}
+          <Route path="/my-purchases" element={token ? <MyPurchases /> : <Navigate to="/" />} ></Route>
+
         </Routes>
 
         {/* Global Modal  */}
