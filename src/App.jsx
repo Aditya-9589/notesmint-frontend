@@ -19,6 +19,7 @@ import MyPurchased from "./pages/MyPurchases";
 import Navbar from './components/layout/Navbar';
 import AuthModal from './components/modal/AuthModal';
 import MyPurchases from './pages/MyPurchases';
+import BundleNotes from './pages/BundleNotes';
 
 
 const App = () => {
@@ -62,6 +63,8 @@ const App = () => {
           {/* ----    <Route path='/login' element={<Login />} ></Route>     ---- */}
           {/* <Route path='/my-purchases' element={<MyPurchased />} ></Route> */}
           <Route path="/my-purchases" element={token ? <MyPurchases /> : <Navigate to="/" />} ></Route>
+
+          <Route path='/notes/:id' element={token ? <BundleNotes /> : <Navigate to="/" />} ></Route>
 
         </Routes>
 

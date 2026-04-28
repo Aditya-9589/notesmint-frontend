@@ -109,23 +109,23 @@ const BundleDetails = ({ openAuth }) => {
         <>
             {/* <Navbar /> */}
 
-            <div className='p-6 max-w-4xl mx-auto' >
+            <div className='p-4 sm:p-6 max-w-4xl mx-auto' >
 
                 <img
                     src={singleBundle.thumbnailUrl}
                     alt=""
-                    className="w-full h-64 object-cover rounded"
+                    className="w-full h-40 sm:h-52 md:h-64 object-cover rounded"
                 />
 
-                <h1 className='text-3xl font-bold mt-4' >
+                <h1 className='text-xl sm:text-2xl md:text-3xl font-bold mt-3 sm:mt-4' >
                     {singleBundle.title}
                 </h1>
 
-                <p className='text-gray-600 mt-3' >
+                <p className='text-gray-600 mt-2 sm:mt-3 text-sm sm:text-base' >
                     {singleBundle.description}
                 </p>
 
-                <h2 className="text-2xl font-bold text-green-600 mt-4">
+                <h2 className="text-xl sm:text-2xl font-bold text-green-600 mt-3 sm:mt-4">
                     ₹{singleBundle.price}
                 </h2>
 
@@ -138,14 +138,14 @@ const BundleDetails = ({ openAuth }) => {
                 {isPurchased ? (
                     <button
                         onClick={() => navigate("/my-purchases")}
-                        className="mt-6 bg-green-600 text-white px-6 py-2 rounded"
+                        className="mt-4 sm:mt-6 bg-green-600 text-white px-6 py-2 rounded w-full sm:w-auto"
                     >
                         Go to My Purchases
                     </button>
                 ) : (
                     <button
                         onClick={handlePayment}
-                        className="mt-6 bg-green-600 text-white px-6 py-2 rounded"
+                        className="mt-4 sm:mt-6 bg-green-600 text-white px-6 py-2 rounded w-full sm:w-auto"
                     >
                         Buy Now
                     </button>

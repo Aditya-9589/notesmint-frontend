@@ -7,19 +7,19 @@ const BundleCard = ({ bundle }) => {
     // console.log(bundle);
     
     return (
-        <div className='border rounded-lg shadow-md p-4 hover:shadow-lg transition' >
+        <div className='border rounded-lg shadow-md p-3 sm:p-4 hover:shadow-lg transition' >
 
             <img 
                 src={bundle.thumbnailUrl}
                 alt={bundle.title}
-                className="w-full h-40 object-cover rounded"
+                className="w-full h-32 sm:h-40 object-cover rounded"
             />
 
-            <h2 className="text-xl font-semibold mt-3" > 
+            <h2 className="text-lg sm:text-xl font-semibold mt-2 sm:mt-3" > 
                 {bundle.title}
             </h2>
 
-            <p className="text-gray-600 text-sm mt-2" >
+            <p className="text-gray-600 text-xs sm:text-sm mt-1.5 sm:mt-2" >
                 {bundle.description}
             </p>
 

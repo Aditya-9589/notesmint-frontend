@@ -1,9 +1,13 @@
 import { useEffect, useState } from "react";
 import { getMyPurchases } from "../services/userService";
+import { useNavigate } from "react-router-dom";
+
 
 const MyPurchases = () => {
     const [bundles, setBundles] = useState([]);
     const [loading, setLoading] = useState(true);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchPurchases = async () => {
@@ -23,13 +27,13 @@ const MyPurchases = () => {
     if (loading) return <p className="p-6">Loading...</p>;
 
     return (
-        <div className="p-6 max-w-6xl mx-auto">
-            <h1 className="text-2xl font-bold mb-6">My Purchases</h1>
+        <div className="p-4 sm:p-6 max-w-6xl mx-auto">
+            <h1 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6">My Purchases</h1>
 
             {bundles.length === 0 ? (
                 <p>No purchases yet</p>
             ) : (
-                <div className="grid grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                     {bundles.map((bundle) => (
                         <div key={bundle._id} className="border rounded p-4 shadow-sm">
                             <img
@@ -46,7 +50,14 @@ const MyPurchases = () => {
                                 {bundle.description}
                             </p>
 
-                            <button className="mt-3 bg-green-600 text-white px-4 py-1 rounded">
+                            {/* <button className="mt-3 bg-green-600 text-white px-4 py-1 rounded">
+                                Access Notes
+                            </button> */}
+
+                            <button
+                                onClick={() => navigate(`/notes/${bundle._id}`)}
+                                className="mt-3 bg-green-600 text-white px-4 py-1 rounded w-full sm:w-auto"
+                            >
                                 Access Notes
                             </button>
                         </div>

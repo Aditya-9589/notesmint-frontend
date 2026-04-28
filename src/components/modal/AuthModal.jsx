@@ -49,7 +49,7 @@ const AuthModal = ({ isOpen, onClose }) => {
         >
             {/* <div className="bg-white p-6 rounded-xl w-[350px] shadow-lg"> */}
             <div
-                className="bg-white p-6 rounded-2xl w-[350px] shadow-xl border border-green-100"
+                className="bg-white p-4 sm:p-6 rounded-2xl w-[90vw] max-w-[350px] shadow-xl border border-green-100"
                 onClick={(e) => e.stopPropagation()}
             >
                 {/* <h2 className="text-xl font-bold mb-4 text-center"> */}
